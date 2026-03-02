@@ -4,6 +4,10 @@ import { api } from "../../../../convex/_generated/api"
 import { Id } from "../../../../convex/_generated/dataModel";
 import { useAuth } from "@clerk/nextjs";
 
+export const useProject = (projectId: Id<"projects">) => {
+    return useQuery(api.projects.getById, { id: projectId });
+}
+
 export const useProjects = () => {
     return useQuery(api.projects.get);
 }
@@ -16,7 +20,7 @@ export const useProjectsPartial = (limit: number) => {
 
 export const useCreateProject = () => {
 
-    const {userId} = useAuth()
+    const { userId } = useAuth()
 
     return useMutation(api.projects.create).withOptimisticUpdate(
         (localStore, args) => {
@@ -45,6 +49,60 @@ export const useCreateProject = () => {
                     newProject,
                     ...existingPartial,
                 ].slice(0, 6))
+            }
+        }
+    )
+}
+
+export const useRenameProject = (projectId: Id<"projects">) => {
+
+    const { userId } = useAuth()
+
+    return useMutation(api.projects.rename).withOptimisticUpdate(
+        (localStore, args) => {
+            const now = Date.now()
+
+            // Update the full list cache
+            const existingProject = localStore.getQuery(api.projects.getById, {
+                id: projectId
+            })
+
+            if (existingProject !== undefined && existingProject !== null) {
+                localStore.setQuery(api.projects.getById, {
+                    id: projectId
+                }, {
+                    ...existingProject,
+                    name: args.name,
+                    updatedAt: Date.now()
+                })
+            }
+
+            const existingProjects = localStore.getQuery(api.projects.get);
+
+            if (existingProjects !== undefined) {
+                localStore.setQuery(
+                    api.projects.get,
+                    {},
+                    existingProjects.map((project) => {
+                        return project._id === args.id
+                            ? { ...project, name: args.name, updatedAt: Date.now() }
+                            : project
+                    })
+                )
+            }
+
+            const existingPartial = localStore.getQuery(api.projects.get);
+
+            if (existingPartial !== undefined) {
+                localStore.setQuery(
+                    api.projects.getPartial,
+                    { limit: 6 },
+                    existingPartial.map((project) => {
+                        return project._id === args.id
+                            ? { ...project, name: args.name, updatedAt: Date.now() }
+                            : project
+                    })
+                )
             }
         }
     )
