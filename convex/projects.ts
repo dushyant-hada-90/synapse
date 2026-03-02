@@ -76,6 +76,10 @@ export const rename = mutation({
     handler: async (ctx, args) => {
         const identity = await verifyAuth(ctx)
 
+        if (!args.name.trim()) {
+            throw new Error("Project name cannot be empty or contain only whitespace");
+        }
+
         const project = await ctx.db.get("projects",args.id)
         if(!project){
             throw new Error("Project not found");
