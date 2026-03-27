@@ -57,7 +57,7 @@ export const Navbar = ({
     }
 
     return (
-        <nav className="flex justify-between items-center gap-x-2 p-2 bg-sidebar border-b">
+        <nav className="flex justify-between items-center gap-x-2 p-2 bg-[rgba(5,7,5,0.88)] border-b border-[rgba(74,222,128,0.22)] backdrop-blur-md">
             <div className="flex items-center gap-x-2">
                 <Breadcrumb>
                     <BreadcrumbList className="gap-0!">
@@ -80,11 +80,11 @@ export const Navbar = ({
                                         />
                                         <span
                                             className={cn(
-                                                "text-sm font-medium",
+                                                "text-sm font-semibold synapse-brand-text",
                                                 font.className
                                             )}
                                         >
-                                            Polaris
+                                            Synapse
                                         </span>
                                     </Link>
                                 </Button>
