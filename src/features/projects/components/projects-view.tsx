@@ -53,24 +53,28 @@ export const ProjectsView = () => {
                 open={importDialogOpen}
                 onOpenChange={setImportDialogOpen}
             />
-            <div className="min-h-screen bg-sidebar flex flex-col items-center justify-center p-6 md:p-16">
-                <div className="w-full max-w-sm mx-auto flex flex-col gap-4 items-center">
-
-                    <div className="flex justify-between gap-4 w-full items-center">
-
-                        <div className="flex items-center gap-2 w-full group/logo">
-                            <img src="/logo.png" alt="Polaris" className="size-8 md:size-11.5" />
-                            <h1 className={cn(
-                                "text-4xl md:text-5xl font-semibold",
-                                font.className,
-                            )}>
-                                Polaris
-                            </h1>
+            <div className="synapse-shell min-h-screen flex flex-col items-center justify-center p-6 md:p-16">
+                <div className="w-full max-w-xl mx-auto flex flex-col gap-6 items-center">
+                    <div className="w-full rounded-xl border border-[rgba(74,222,128,0.25)] bg-[rgba(5,7,5,0.75)] backdrop-blur-md p-6 md:p-8 shadow-[0_18px_60px_rgba(0,0,0,0.4)]">
+                        <div className="flex justify-between gap-4 w-full items-center">
+                            <div className="flex items-center gap-3 w-full group/logo">
+                                <img src="/logo.png" alt="Synapse" className="size-9 md:size-11" />
+                                <div className="flex flex-col">
+                                    <h1 className={cn(
+                                        "text-4xl md:text-5xl font-semibold synapse-brand-text leading-none",
+                                        font.className,
+                                    )}>
+                                        Synapse
+                                    </h1>
+                                    <p className="text-[11px] md:text-xs tracking-[0.22em] uppercase text-(--syn-on-surface-variant)">
+                                        Kinetic workspace launcher
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="flex flex-col gap-4 w-full">
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="mt-6 flex flex-col gap-4 w-full">
+                            <div className="grid grid-cols-2 gap-2">
                             <Button
                                 variant="outline"
                                 onClick={() => {
@@ -83,7 +87,7 @@ export const ProjectsView = () => {
                                         name: projectName
                                     })
                                 }}
-                                className="h-full items-start justify-start p-4 bg-background border flex flex-col gap-6 rounded-none">
+                                className="h-full items-start justify-start p-4 bg-[rgba(2,3,2,0.85)] border-[rgba(74,222,128,0.2)] flex flex-col gap-6 rounded-lg hover:border-[rgba(74,222,128,0.45)] hover:bg-[rgba(13,17,14,0.95)] transition-colors">
 
                                 <div className="flex items-center justify-between w-full">
                                     <SparkleIcon className="size-4"
@@ -101,7 +105,7 @@ export const ProjectsView = () => {
                             <Button
                                 variant="outline"
                                 onClick={() => setImportDialogOpen(true)}
-                                className="h-full items-start justify-start p-4 bg-background border flex flex-col gap-6 rounded-none"
+                                className="h-full items-start justify-start p-4 bg-[rgba(2,3,2,0.85)] border-[rgba(74,222,128,0.2)] flex flex-col gap-6 rounded-lg hover:border-[rgba(74,222,128,0.45)] hover:bg-[rgba(13,17,14,0.95)] transition-colors"
                             >
 
                                 <div className="flex items-center justify-between w-full">
@@ -120,7 +124,8 @@ export const ProjectsView = () => {
                             </Button>
                         </div>
 
-                        <ProjectsList onViewAll={() => setCommandDialogOpen(true)} />
+                            <ProjectsList onViewAll={() => setCommandDialogOpen(true)} />
+                        </div>
                     </div>
                 </div>
             </div >

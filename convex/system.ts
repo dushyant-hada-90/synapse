@@ -6,10 +6,10 @@ import { Id } from "./_generated/dataModel";
 
 // Guards all system queries/mutations — throws if the caller doesn't supply the correct secret key.
 const validateInternalKey = (key: string) => {
-    const internalKey = process.env.POLARIS_CONVEX_INTERNAL_KEY;
+    const internalKey = process.env.SYNAPSE_CONVEX_INTERNAL_KEY;
 
     if (!internalKey) {
-        throw new Error("POLARIS_CONVEX_INTERNAL_KEY is not configured");
+        throw new Error("SYNAPSE_CONVEX_INTERNAL_KEY is not configured");
     }
     if (key !== internalKey) {
         throw new Error("Invalid internal key");

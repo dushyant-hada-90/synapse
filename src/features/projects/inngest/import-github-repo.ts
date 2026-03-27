@@ -17,7 +17,7 @@ export const importGithubRepo = inngest.createFunction(
     {
         id: "import-github-repo",
         onFailure: async ({ event, step }) => {
-            const internalKey = process.env.POLARIS_CONVEX_INTERNAL_KEY;
+            const internalKey = process.env.SYNAPSE_CONVEX_INTERNAL_KEY;
             if (!internalKey) return;
             const { projectId } = event.data.event.data as ImportGithubRepoEvent
 
@@ -43,9 +43,9 @@ export const importGithubRepo = inngest.createFunction(
             storageId: Id<"_storage"> | "";
         };
 
-        const internalKey = process.env.POLARIS_CONVEX_INTERNAL_KEY;
+        const internalKey = process.env.SYNAPSE_CONVEX_INTERNAL_KEY;
         if (!internalKey) {
-            throw new NonRetriableError("POLARIS_CONVEX_INTERNAL_KEY is not configured");
+            throw new NonRetriableError("SYNAPSE_CONVEX_INTERNAL_KEY is not configured");
         }
 
         const octokit = new Octokit({ auth: githubToken })
