@@ -101,8 +101,8 @@ export const ImportGithubDialog = ({
                                         name={field.name}
                                         value={field.state.value}
                                         onBlur={field.handleBlur}
-                                        onChange={(e) => field.handleChange(e.target.
                                         onChange={(e) => field.handleChange(e.target.value)}
+                                        aria-invalid={isInvalid}
                                         placeholder="https://github.com/owner/repo"
                                     />
                                     {isInvalid && <FieldError errors={field.state.meta.errors} />}
@@ -119,12 +119,13 @@ export const ImportGithubDialog = ({
                             Cancel
                         </Button>
                         <form.Subscribe
-                            selector={(state) => [state.canSubmit, state.
-                                isSubmitting]}
                             selector={(state) => [state.canSubmit, state.isSubmitting]}
                         >
+                            {([canSubmit, isSubmitting]) => (
+                                <Button
                                     type="submit"
-                                    disabled={!canSubmit || isSubmitting}>
+                                    disabled={!canSubmit || isSubmitting}
+                                >
                                     {isSubmitting ? "Importing ... " : "Import"}
                                 </Button>
                             )}
