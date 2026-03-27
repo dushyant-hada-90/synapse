@@ -11,7 +11,7 @@ interface BulkCreateToolOptions {
 
 const bulkEntrySchema = z.object({
     filename: z.string().min(1, "filename cannot be empty"),
-    filePath: z.string().default(""),
+    filePath: z.string(),
     type: z.enum(["file", "folder"]),
     content: z.string(),
 }).strict();
@@ -24,7 +24,7 @@ export const createCreateFilesTool = ({ internalKey, projectId }: BulkCreateTool
     return createTool({
         name: "createFiles",
         description:
-            "Bulk create files and folders. Input 'entries' only as an array of objects (do not send top-level filename/type/content). Each entry requires filename, filePath (empty string for root), type ('file' or 'folder'), and content. Use \"\" as content when creating an empty file or any folder. It returns an array of results mentioning creation success or error for each entry.",
+            "Bulk create files and folders. Input 'entries' only as an array of objects (do not send top-level filename/type/content). Each entry requires filename, filePath (empty string for root), type ('file' or 'folder'), and content. For folders, pass content as \"\". Binary file creation is not supported by this tool. It returns per-entry creation success or error.",
         parameters: z.object({
             entries: z
                 .array(
@@ -36,7 +36,9 @@ export const createCreateFilesTool = ({ internalKey, projectId }: BulkCreateTool
                         type: z
                             .enum(["file", "folder"])
                             .describe("Whether this entry is a file or folder"),
-                        content: z.string().describe("Required content string. Use \"\" for empty file content. For folders, pass \"\"."),
+                        content: z
+                            .string()
+                            .describe("Required content string. For text files provide content. For folders pass \"\"."),
                     }).strict()
                 )
                 .min(1)
@@ -52,13 +54,17 @@ export const createCreateFilesTool = ({ internalKey, projectId }: BulkCreateTool
             }
 
             const entries = parsed.data.entries;
+            const mutationEntries = entries.map((entry) => ({
+                ...entry,
+                storageId: "" as const,
+            }));
 
             try {
                 return await toolStep?.run(stepId, async () => {
                     const results = await convex.mutation(api.system.createBulkEntries, {
                         internalKey,
                         projectId,
-                        entries,
+                        entries: mutationEntries,
                     });
 
                     const created = results.filter((result) => !result.error);
