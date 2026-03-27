@@ -1,6 +1,6 @@
 import {Inngest} from "inngest"
 import {sentryMiddleware} from "@inngest/middleware-sentry"
 export const inngest = new Inngest({
-    id:"polaris",
+    id:"synapse",
     middleware:[sentryMiddleware()],
 })
