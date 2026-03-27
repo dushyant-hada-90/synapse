@@ -28,7 +28,7 @@ export default withSentryConfig(nextConfig, {
 
   org: "tutorial-lx",
 
-  project: "polaris",
+  project: "synapse",
 
   // Only print logs for uploading source maps in CI
   silent: !process.env.CI,

@@ -34,7 +34,7 @@ export const processMessage = inngest.createFunction(
         ],
         onFailure: async ({ event, step }) => {
             const { messageId } = event.data.event.data as MessageEvent
-            const internalKey = process.env.POLARIS_CONVEX_INTERNAL_KEY
+            const internalKey = process.env.SYNAPSE_CONVEX_INTERNAL_KEY
 
             //update message with error content
             if (internalKey) {
@@ -61,10 +61,10 @@ export const processMessage = inngest.createFunction(
             message,
         } = event.data as MessageEvent
 
-        const internalKey = process.env.POLARIS_CONVEX_INTERNAL_KEY;
+        const internalKey = process.env.SYNAPSE_CONVEX_INTERNAL_KEY;
 
         if (!internalKey) {
-            throw new NonRetriableError("POLARIS_CONVEX_INTERNAL_KEY is not configured");
+            throw new NonRetriableError("SYNAPSE_CONVEX_INTERNAL_KEY is not configured");
         }
 
         // TODO: Check if this is needed
@@ -190,7 +190,7 @@ export const processMessage = inngest.createFunction(
 
         const getCodingAgent = (iteration: number) => {
             const codingAgent = createAgent({
-                name: `polaris-${iteration + 1}`,
+                name: `synapse-${iteration + 1}`,
                 description: "An expert AI coding assistant",
                 system: systemPrompt,
                 model: codingModel,
@@ -210,7 +210,7 @@ export const processMessage = inngest.createFunction(
         }
 
         const network = createNetwork({
-            name: "polaris-network",
+            name: "synapse-network",
             agents: [getCodingAgent(0)],
             maxIter: 20,
             router: ({ network }) => {
