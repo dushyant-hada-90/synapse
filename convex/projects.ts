@@ -40,6 +40,8 @@ export const create = mutation({
             ownerId: identity.subject,
             updatedAt: Date.now()
         })
+
+        return projectId
     }
 })
 
